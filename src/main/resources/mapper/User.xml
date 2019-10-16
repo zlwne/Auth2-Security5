@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" " http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.oauth2.mapper.UserMapper">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！ -->
+    <resultMap id="BaseResultMap" type="com.example.oauth2.model.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="username" property="username" jdbcType="VARCHAR"/>
+        <id column="password" property="password" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--关联到用户的权限信息-->
+    <resultMap type="com.example.oauth2.model.User" id="UserBaseResultMap" extends="BaseResultMap">
+        <collection property="authorities" ofType="com.example.oauth2.model.Role">
+            <id column="id" property="id"/>
+            <result column="code" property="code"/>
+            <result column="name" property="name"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="queryUserByuserName"
+            resultMap="UserBaseResultMap"
+            parameterType="com.example.oauth2.model.User">
+
+        SELECT u.*,r.name FROM user u LEFT JOIN user_role ur on u.id=ur.user_id left JOIN role r on ur.role_id = r.id
+        <where>
+            <if test="user.username!=null and user.username!=''">
+                u.username=#{user.username}
+            </if>
+        </where>
+    </select>
+
+    <select id="list" parameterType="com.example.oauth2.model.User" resultMap="BaseResultMap">
+        SELECT u.* FROM user u
+    </select>
+
+</mapper>

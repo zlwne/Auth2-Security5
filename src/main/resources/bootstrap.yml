@@ -1,0 +1,28 @@
+logging:
+  level:
+    root: INFO
+server:
+  port: 8888
+spring:
+  http:
+    encoding:
+      enabled: true
+      charset: utf-8
+      force: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.16.0.3:3306/gccx_test1?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: gccx
+    password: nKzcop0SqLj_7PZ
+#mybatis配置
+#mybatis:
+##实体类所在包名
+#  type-aliases-package: com.wx.securitydemo1.domain
+mybatis:
+  mapper-locations: classpath:mapper/*
+  type-aliases-package: com.example.security5.model.*
+  #  config-location: classpath:mybatis-config.xml
+
+mapper:
+  mappers: com.example.oauth2.common.SuperMapper
+  identity: MYSQL
